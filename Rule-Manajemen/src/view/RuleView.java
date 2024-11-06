@@ -1,5 +1,9 @@
 package view;
 
+import command.AddRuleCommand;
+import command.Command;
+import command.RestoreRuleCommand;
+import command.ShowRulesCommand;
 import controller.RuleController;
 
 import java.util.Scanner;
@@ -22,43 +26,54 @@ public class RuleView {
             System.out.println("4. Exit");
             System.out.print("Pilih opsi (1-4): ");
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Mengkonsumsi newline
+            scanner.nextLine();
 
+            Command command;
             switch (choice) {
                 case 1:
-                    addRule();
+//                    addRule();
+                    command = createAddRuleCommand();
                     break;
                 case 2:
-                    showRules();
+//                    showRules();
+                    command = new ShowRulesCommand(controller);
                     break;
                 case 3:
-                    restoreRules();
+//                    restoreRules();
+                    command = new RestoreRuleCommand(controller);
                     break;
                 case 4:
                     System.out.println("Keluar dari aplikasi.");
                     return;
                 default:
                     System.out.println("Opsi tidak valid. Silakan coba lagi.");
+                    continue;
             }
+            command.execute();
         }
     }
-
-    private void addRule() {
+    private Command createAddRuleCommand() {
         System.out.print("Masukkan peraturan baru: ");
         String content = scanner.nextLine();
-        controller.addRule(content);
-        System.out.println("Peraturan berhasil ditambahkan.");
+        return new AddRuleCommand(controller, content);
     }
 
-    private void showRules() {
-        System.out.println("Daftar Peraturan:");
-        for (var rule : controller.getAllRules()) {
-            System.out.println(rule);
-        }
-    }
-
-    private void restoreRules() {
-        controller.restore();
-        System.out.println("Peraturan berhasil dikembalikan ke status sebelumnya.");
-    }
+//    private void addRule() {
+//        System.out.print("Masukkan peraturan baru: ");
+//        String content = scanner.nextLine();
+//        controller.addRule(content);
+//        System.out.println("Peraturan berhasil ditambahkan.");
+//    }
+//
+//    private void showRules() {
+//        System.out.println("Daftar Peraturan:");
+//        for (var rule : controller.getAllRules()) {
+//            System.out.println(rule);
+//        }
+//    }
+//
+//    private void restoreRules() {
+//        controller.restore();
+//        System.out.println("Peraturan berhasil dikembalikan ke status sebelumnya.");
+//    }
 }

@@ -18,7 +18,6 @@ public class RuleController {
     }
 
     public void addRule(String content) {
-        // Simpan status saat ini sebelum menambahkan peraturan baru
         mementoStack.push(save());
 
         Rule rule = ruleFactory.createRule(content);
@@ -29,7 +28,6 @@ public class RuleController {
         return rules;
     }
 
-    // Menyimpan status
     public RuleMemento save() {
         List<String> ruleContents = new ArrayList<>();
         for (Rule rule : rules) {
@@ -38,7 +36,6 @@ public class RuleController {
         return new RuleMemento(ruleContents);
     }
 
-    // Mengembalikan status
     public void restore() {
         if (!mementoStack.isEmpty()) {
             RuleMemento memento = mementoStack.pop();
